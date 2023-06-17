@@ -1,0 +1,14 @@
+{
+  "name": "char_array",
+  "version": "0.1.0",
+  "repo": "goodcleanfun/char_array",
+  "description": "Safe, dynamic character vectors in C with stirng manipulation methods",
+  "keywords": ["vector", "array", "string", "char", "utf8", "unicode"],
+  "license": "MIT",
+  "dependencies": {
+    "goodcleanfun/utf8proc": "*",
+    "goodcleanfun/vector": "*"
+  },
+  "src": ["src/char_array.h", "src/char_array.c"]
+}
+  
