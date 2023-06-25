@@ -6,7 +6,7 @@
   "keywords": ["vector", "array", "string", "char", "utf8", "unicode"],
   "license": "MIT",
   "dependencies": {
-    "goodcleanfun/utf8": "*",
+    "goodcleanfun/utf8proc": "*",
     "goodcleanfun/vector": "*"
   },
   "src": ["src/char_array.h", "src/char_array.c"]
