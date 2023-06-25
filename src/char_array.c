@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "char_array.h"
-#include "utf8proc/utr8proc.h"
+#include "utf8/utf8.h"
 
 char_array *char_array_from_string(char *str) {
     size_t len = strlen(str);
