@@ -125,7 +125,7 @@ inline void char_array_add_len(char_array *array, char *str, size_t len) {
 }
 
 
-void char_array_add_vjoined(char_array *array, char *separator, bool strip_separator, int count, va_list args) {
+void char_array_add_vjoined(char_array *array, char *separator, bool strip_separator, size_t count, va_list args) {
     if (count <= 0) {
         return;        
     }
@@ -152,14 +152,14 @@ void char_array_add_vjoined(char_array *array, char *separator, bool strip_separ
 
 }
 
-inline void char_array_add_joined(char_array *array, char *separator, bool strip_separator, int count, ...) {
+inline void char_array_add_joined(char_array *array, char *separator, bool strip_separator, size_t count, ...) {
     va_list args;
     va_start(args, count);
     char_array_add_vjoined(array, separator, strip_separator, count, args);
     va_end(args);
 }
 
-inline void char_array_cat_joined(char_array *array, char *separator, bool strip_separator, int count, ...) {
+inline void char_array_cat_joined(char_array *array, char *separator, bool strip_separator, size_t count, ...) {
     char_array_strip_nul_byte(array);
     va_list args;
     va_start(args, count);
