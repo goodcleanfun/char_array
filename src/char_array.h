@@ -16,9 +16,11 @@ makes sure e.g. appends and concatenation are cheap and safe.
 #include <stdbool.h>
 #include <stdarg.h>
 
-#include "vector/vector.h"
-
-VECTOR_INIT(char_array, char)
+#define ARRAY_NAME char_array
+#define ARRAY_TYPE char
+#include "array/array.h"
+#undef ARRAY_TYPE
+#undef ARRAY_NAME
 
 char_array *char_array_from_string(char *str);
 char_array *char_array_from_string_no_copy(char *str, size_t n);
