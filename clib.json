@@ -5,11 +5,16 @@
   "description": "Safe, dynamic character vectors in C with stirng manipulation methods",
   "keywords": ["vector", "array", "string", "char", "utf8", "unicode"],
   "license": "MIT",
-  "dependencies": {
-    "goodcleanfun/utf8": "*",
-    "goodcleanfun/utf8proc": "*",
-    "goodcleanfun/array": "*"
+  "development": {
+    "silentbicycle/greatest": "*"
   },
-  "src": ["src/char_array.h", "src/char_array.c"]
+  "dependencies": {
+    "goodcleanfun/aligned_array": "*"
+  },
+  "src": [
+    "src/char_array_aligned.h",
+    "src/char_array_base.h",
+    "src/char_array.h"
+  ]
 }
   
