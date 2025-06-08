@@ -34,19 +34,15 @@ makes sure e.g. appends and concatenation are cheap and safe.
 #define CHAR_ARRAY_FUNC(func) CONCAT(CHAR_ARRAY_NAME, _##func)
 
 // Gets the underlying C string for a char_array
-static CHAR_ARRAY_NAME *CHAR_ARRAY_FUNC(from_string)(char *str) {
-    size_t len = strlen(str);
-    CHAR_ARRAY_NAME *array = CHAR_ARRAY_FUNC(new_size)(len+1);
-    strcpy(array->a, str);
-    array->n = len;
-    return array;
-}
-
-static CHAR_ARRAY_NAME *CHAR_ARRAY_FUNC(from_string_no_copy)(char *str, size_t n) {
-    CHAR_ARRAY_NAME *array = malloc(sizeof(CHAR_ARRAY_NAME));
-    array->a = str;
-    array->m = n;
-    array->n = n;
+static CHAR_ARRAY_NAME *CHAR_ARRAY_FUNC(from_string)(char *str, size_t len) {
+    size_t size = len;
+    if (len > 0 && str[len-1] != '\0') {
+        size++;
+    }
+    CHAR_ARRAY_NAME *array = CHAR_ARRAY_FUNC(new_size)(size);
+    memcpy(array->a, str, len);
+    array->a[len] = '\0';
+    array->n = len + 1;
     return array;
 }
 
@@ -93,13 +89,11 @@ static inline size_t CHAR_ARRAY_FUNC(len)(CHAR_ARRAY_NAME *array) {
 static inline void CHAR_ARRAY_FUNC(append)(CHAR_ARRAY_NAME *array, char *str) {
     while(*str) {
         CHAR_ARRAY_FUNC(push)(array, *str++);
-    }    
+    }
 }
 
 static inline void CHAR_ARRAY_FUNC(append_len)(CHAR_ARRAY_NAME *array, char *str, size_t len) {
-    for (size_t i = 0; i < len; i++) {
-        CHAR_ARRAY_FUNC(push)(array, *str++);
-    }
+    CHAR_ARRAY_FUNC(extend)(array, str, len);
 }
 
 // Similar to strcat but with dynamic resizing, guaranteed NUL-terminated
@@ -145,11 +139,12 @@ static void CHAR_ARRAY_FUNC(add_vjoined)(CHAR_ARRAY_NAME *array, char *separator
         }
 
         CHAR_ARRAY_FUNC(append_len)(array, arg, len);
-        CHAR_ARRAY_FUNC(append)(array, separator);
+        CHAR_ARRAY_FUNC(append_len)(array, separator, separator_len);
     }
 
     char *arg = va_arg(args, char *);
-    CHAR_ARRAY_FUNC(append)(array, arg);
+    size_t len = strlen(arg);
+    CHAR_ARRAY_FUNC(append_len)(array, arg, len);
     CHAR_ARRAY_FUNC(terminate)(array);
 
 }
